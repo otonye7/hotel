@@ -5,7 +5,9 @@ import Register from './auth/register';
 import Home from './bookings/Home';
 import TopNav from './component/TopNav';
 import DashBoard from './user/Dashboard';
+import DashBoardSeller from './user/DashboardSeller';
 import PrivateRoute from './component/PrivateRoute';
+import NewHotels from "./hotels/New";
 
 function App() {
   return (
@@ -16,6 +18,8 @@ function App() {
         <Route  path={'/register'} exact={true}  element={<Register />} /> 
         <Route  path={'/login'} exact={true}  element={<Login />} /> 
         <Route  path={'/dashboard'} exact={true}  element={<PrivateRoute><DashBoard /></PrivateRoute>} /> 
+        <Route  path={'/dashboard/seller'} exact={true}  element={<DashBoardSeller />} /> 
+        <Route  path={'/hotels/new'} exact={true}  element={<NewHotels />} /> 
       </Routes>
     </div>
   );

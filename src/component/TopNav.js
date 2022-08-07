@@ -6,6 +6,7 @@ const TopNav = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector((state) => state.user);
+  console.log(user)
   const handleLogout = () => {
     dispatch(logoutUser({
       data: null
@@ -19,6 +20,13 @@ const TopNav = () => {
         <Link className='nav-link' to="/">Home</Link>
         {
           user !== null && (
+          <>
+             <Link className='nav-link' to="/dashboard">Dashboard</Link>
+          </>
+          )
+        }
+        {
+          user !== null && (
             <a onClick={handleLogout} href className='nav-link'>Logout</a>
         )
         }
@@ -30,6 +38,7 @@ const TopNav = () => {
           </>
           )
         }
+        
       </div>
     )
   }

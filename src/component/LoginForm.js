@@ -34,7 +34,7 @@ const LoginForm = () => {
             dispatch(loginUser({
                 data: response.data
             }))
-            navigate('/')
+            navigate('/dashboard')
             window.location.reload()
         }
        } catch (err) {
