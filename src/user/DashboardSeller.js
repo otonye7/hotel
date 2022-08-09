@@ -18,7 +18,7 @@ const DashBoardSeller = () => {
             Authorization: `Bearer ${user.token}`//get login link for stripe
           }
         })
-        console.log(response)
+        window.location.href = response.data
       } catch (err) {
         console.log(err)
         toast.error("Stripe connect failed, Try again.")
@@ -73,9 +73,8 @@ const DashBoardSeller = () => {
           </div>
           <ToastContainer />
         { user && 
-          user.user &&
-          user.user.stripe_seller &&
-          user.user.stripe_seller.charges_enabled
+          user.stripe_seller &&
+          user.stripe_seller.charges_enabled
           ? connected() : notConnected()
         }
         </>
