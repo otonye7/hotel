@@ -72,9 +72,10 @@ const DashBoardSeller = () => {
             <DashboardNav />
           </div>
           <ToastContainer />
-        { user && 
-          user.stripe_seller &&
-          user.stripe_seller.charges_enabled
+        { user &&
+          user.user && 
+          user.user.stripe_seller &&
+          user.user.stripe_seller.charges_enabled
           ? connected() : notConnected()
         }
         </>

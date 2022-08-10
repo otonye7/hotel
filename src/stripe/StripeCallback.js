@@ -29,13 +29,6 @@ const StripeCallback = () => {
         window.location.href = "/dashboard/seller"
         window.location.reload()
     }
-    // const updateUserInLocalStorage = () => {
-    //     if(window.localStorage.getItem("hotelUser")){
-    //         let hotelUser = JSON.parse(localStorage.getItem("hotelUser"))
-    //         // individualUser.user = user
-    //         localStorage.setItem("hotelUser", JSON.stringify(hotelUser))
-    //     }
-    // }
     return (
         <div className="d-flex justify-content-center">
             <LoadingOutlined className="h1 p-5 text-danger" />
