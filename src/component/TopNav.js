@@ -26,7 +26,7 @@ const TopNav = () => {
         }
         {
           user !== null && (
-            <a onClick={handleLogout} href className='nav-link'>Logout</a>
+            <a onClick={handleLogout} href="/login" className='nav-link'>Logout</a>
         )
         }
         {
