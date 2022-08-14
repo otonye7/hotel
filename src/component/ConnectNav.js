@@ -12,7 +12,8 @@ const ConnectNav = () => {
     const [balance, setBalance] = useState(0);
     const [loading, setLoading] = useState(false);
     const user = useSelector((state) => state.user);
-    const { user: { name, createdAt } } = user;
+    // const { user: { name, createdAt } } = user;
+    // console.log(user)
 
     useEffect(() => {
         getAccountBalance()
@@ -61,9 +62,9 @@ const ConnectNav = () => {
         <div className="d-flex justify-content-around">
              <Card>
                 <Meta 
-                avatar={<Avatar>{name[0]}</Avatar>}
-                title={name}
-                description={`Joined ${moment(createdAt).fromNow()}`} 
+                avatar={<Avatar>{user.user.name[0]}</Avatar>}
+                title={user.user.name}
+                description={`Joined ${moment(user.user.createdAt).fromNow()}`} 
                 />
             </Card>
             {user && user.user && user.user.stripe_seller && user.user.stripe_seller.charges_enabled &&  <>
@@ -83,7 +84,7 @@ const ConnectNav = () => {
                     <SettingOutlined className="h5 pt-2" />
                 </Card>
                </Ribbon>
-            </>} 
+            </>}  
         </div>
     )
 }

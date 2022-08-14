@@ -1,15 +1,17 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import DashboardNav from "../component/DashboardNav";
 import ConnectNav from "../component/ConnectNav";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { HomeOutlined } from "@ant-design/icons";
 import axios from "axios";
+import SmallCard from "../component/Cards/SmallCards";
 import { ToastContainer, toast } from 'react-toastify';
 
 const DashBoardSeller = () => {
     const user = useSelector((state) => state.user);
     const [loading, setLoading] = useState(false)
+    const [sellerData, setSellerData] = useState([]);
     const handleClick = async () => {
       setLoading(true)
       try {
@@ -25,6 +27,20 @@ const DashBoardSeller = () => {
         setLoading(false)
       }
     }
+
+    useEffect(() => {
+      loadSellersHotels()
+    }, [])
+
+    const loadSellersHotels = async () => {
+      const res = await axios.get(`http://localhost:7000/api/seller-hotels`, {
+        headers: {
+          Authorization: `Bearer ${user.token}`
+        }
+      })
+      setSellerData(res.data)
+    }
+
     const connected = () => {
       return (
         <div className="container-fluid">
@@ -35,6 +51,12 @@ const DashBoardSeller = () => {
           <div className="col-md-2">
             <Link className="btn btn-primary" to="/hotels/new">+ Add New</Link>
           </div>
+        </div>
+
+        <div className="row">
+          {
+            sellerData.map((hotels) => <SmallCard key={hotels._id} hotels={hotels} showViewMoreButton={false} owner={true} />)
+          }
         </div>
       </div>
       )

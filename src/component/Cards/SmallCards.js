@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router';
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { Link } from 'react-router-dom';
 
-const SmallCard = ({ hotels: { _id, bed, content, from, to, image, location, price, title } }) => {
+const SmallCard = ({ hotels: { _id, bed, content, from, to, image, location, price, title }, owner = false, showViewMoreButton = true }) => {
     const navigate = useNavigate();
     const handleNavigate = (id) => {
         navigate(`/hotel/${id}`)
@@ -38,12 +38,17 @@ const SmallCard = ({ hotels: { _id, bed, content, from, to, image, location, pri
                         </p>
                         <p className="card-text">{bed}</p>
                         <p className="card-text">Available from {new Date(from).toLocaleDateString()}</p>
-                        <button onClick={() => handleNavigate(_id)} className="btn btn-primary">Show More</button>
+                        {showViewMoreButton && <button onClick={() => handleNavigate(_id)} className="btn btn-primary">Show More</button>}
                         <div className="d-flex justify-content-between h4">
-                            <Link to={`/hotel/edit/${_id}`}>
-                               <EditOutlined className="text-warning" />
-                            </Link>
+                        {
+                            owner && 
+                            <>
+                                <Link to={`/hotel/edit/${_id}`}>
+                                   <EditOutlined className="text-warning" />
+                                </Link>
                             <DeleteOutlined className="text-danger" onClick={() => handleHotelDelete(_id)} />
+                            </>
+                        }
                         </div>
                     </div>
                 </div>
