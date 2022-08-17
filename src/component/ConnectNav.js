@@ -12,8 +12,6 @@ const ConnectNav = () => {
     const [balance, setBalance] = useState(0);
     const [loading, setLoading] = useState(false);
     const user = useSelector((state) => state.user);
-    // const { user: { name, createdAt } } = user;
-    // console.log(user)
 
     useEffect(() => {
         getAccountBalance()
@@ -31,7 +29,6 @@ const ConnectNav = () => {
         setLoading(true)
         try {
            const response =  await payOutSetting();
-           console.log(response)
            window.location.href = response.data.url
            setLoading(false)
         }  catch (err) {

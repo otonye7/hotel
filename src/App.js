@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import './App.css';
 import Login from './auth/login';
@@ -9,8 +10,11 @@ import DashBoardSeller from './user/DashboardSeller';
 import PrivateRoute from './component/PrivateRoute';
 import NewHotels from "./hotels/New";
 import StripeCallback from './stripe/StripeCallback';
+import EditHotel from './hotels/EditHotel';
+import ViewHotel from './hotels/ViewHotel';
 
 function App() {
+
   return (
     <div className="App">
       <TopNav />
@@ -21,6 +25,8 @@ function App() {
         <Route  path={'/dashboard'} exact={true}  element={<PrivateRoute><DashBoard /></PrivateRoute>} /> 
         <Route  path={'/dashboard/seller'} exact={true}  element={<DashBoardSeller />} /> 
         <Route  path={'/hotels/new'} exact={true}  element={<NewHotels />} /> 
+        <Route  path={'/hotel/edit/:hotelId'} exact={true}  element={<PrivateRoute><EditHotel /></PrivateRoute>} /> 
+        <Route  path={'/hotel/:hotelId'} exact={true}  element={<ViewHotel />} />
         <Route  path={'/stripe/callback'} exact={true}  element={<StripeCallback />} /> 
       </Routes>
     </div>

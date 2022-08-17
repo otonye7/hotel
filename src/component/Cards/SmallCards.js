@@ -2,14 +2,23 @@ import { diffDays } from "../../actions";
 import { useNavigate } from 'react-router';
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { Link } from 'react-router-dom';
+import axios from "axios";
+import { useSelector } from "react-redux";
 
 const SmallCard = ({ hotels: { _id, bed, content, from, to, image, location, price, title }, owner = false, showViewMoreButton = true }) => {
     const navigate = useNavigate();
+    const user = useSelector((state) => state.user);
     const handleNavigate = (id) => {
         navigate(`/hotel/${id}`)
     }
-    const handleHotelDelete = (id) => {
-        console.log(id)
+    const handleHotelDelete = async (id) => {
+        if(!window.confirm("Are you sure ?")) return
+        let res = await axios.delete(`http://localhost:7000/api/delete-hotel/${id}`, {
+            headers: {
+                Authorization: `Bearer ${user.token}`
+            }
+        })
+        window.location.reload();
     }
     return (
        <>

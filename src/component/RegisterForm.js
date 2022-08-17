@@ -28,7 +28,6 @@ const RegisterForm = () => {
             password: userData.password,
             confirmPassword: userData.confirmPassword
         })
-          console.log(response)
           toast("Registeration Successful")
           navigate('/login')
        } catch (err) {
