@@ -5,10 +5,12 @@ import { diffDays } from "../actions/index";
 import moment from "moment";
 import { useSelector } from "react-redux";
 import { useNavigate } from 'react-router';
+import { loadStripe } from "@stripe/stripe-js";
 
 const ViewHotel = () => {
     const [loadData, setLoadData] = useState([]);
-    const [image, setImage] = useState("");
+    const [image, setImage] = useState(""); 
+    const [loading, setLoading] = useState(false)
     const { hotelId } = useParams();
     const navigate = useNavigate();
     const user = useSelector((state) => state.user);
@@ -24,6 +26,7 @@ const ViewHotel = () => {
     }
 
     const getSessionId = async () => {
+        setLoading(true);
         let res = await axios.post(`http://localhost:7000/api/stripe-session-id`, {
             hotelId
         }, {
@@ -31,6 +34,11 @@ const ViewHotel = () => {
                 Authorization: `Bearer ${user.token}`
             }
         })
+        const stripe = await loadStripe(process.env.REACT_APP_STRIPE_KEY);
+        stripe.redirectToCheckout({
+            sessionId: res.data.sessionId
+        })
+        .then((result) => console.log(result))
     }
 
     const handleClick = (e) => {
@@ -67,8 +75,8 @@ const ViewHotel = () => {
                     <p>To <br /> {moment(new Date(to)).format("MMM Do YYYY, h:mm:ss a")}</p>
                     <i>Posted By {postedBy && postedBy.name}</i>
                      <br />
-                    <button onClick={handleClick} className="btn btn-block btn-lg btn-primary mt-3">
-                         {user && user.token ? "Book Now" : "Login to book"}
+                    <button onClick={handleClick} disabled={loading} className="btn btn-block btn-lg btn-primary mt-3">
+                         {loading ? "Loading" : user && user.token ? "Book Now" : "Login to book"}
                     </button>
                 </div>
             </div>
@@ -77,4 +85,5 @@ const ViewHotel = () => {
     )
 }
 
-export default ViewHotel
+export default ViewHotel;
+

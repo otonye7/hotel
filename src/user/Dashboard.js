@@ -1,8 +1,30 @@
+import { useState, useEffect } from "react";
 import DashboardNav from "../component/DashboardNav";
 import ConnectNav from "../component/ConnectNav";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import { useSelector } from "react-redux";
+import BookingCard from "../component/Cards/BookingCards";
+
 const DashBoard = () => {
-    
+  const [bookHotelData, setBookedHotelData] = useState([]);
+  const user = useSelector((state) => state.user);
+
+  useEffect(() => {
+    getBookedHotel()
+  }, [])
+
+  const getBookedHotel = async () => {
+      let res = await axios.get(`http://localhost:7000/api/user-hotel-bookings`, {
+        headers: {
+          Authorization: `Bearer ${user.token}`
+        }
+      })
+      setBookedHotelData(res.data)
+    }
+
+    console.log(bookHotelData)
+
     return (
         <>
           <div className="container-fluid bg-secondary p-5">
@@ -20,6 +42,18 @@ const DashBoard = () => {
                 <Link className="btn btn-primary" to="/">Browse Hotels</Link>
               </div>
             </div>
+          </div>
+          <div className="row">
+            {
+              bookHotelData.map((hotels) => (
+                <BookingCard 
+                key={hotels._id}
+                hotels={hotels}
+                session={hotels.session}
+                orderedBy={hotels.orderedBy}
+                />
+              ))
+            }
           </div>
         </>
     )
