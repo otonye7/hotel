@@ -23,8 +23,6 @@ const DashBoard = () => {
       setBookedHotelData(res.data)
     }
 
-    console.log(bookHotelData)
-
     return (
         <>
           <div className="container-fluid bg-secondary p-5">

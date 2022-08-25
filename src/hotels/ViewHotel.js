@@ -9,6 +9,7 @@ import { loadStripe } from "@stripe/stripe-js";
 
 const ViewHotel = () => {
     const [loadData, setLoadData] = useState([]);
+    const [bookedHotel, setBookedHotel] = useState(false);
     const [image, setImage] = useState(""); 
     const [loading, setLoading] = useState(false)
     const { hotelId } = useParams();
@@ -19,10 +20,25 @@ const ViewHotel = () => {
         getSingleHotel();
     }, [])
 
+    useEffect(() => {
+        if(user && user.token){
+            isAlreadyBooked()
+        }
+    }, [])
+
     const getSingleHotel = async () => {
         let res = await axios.get(`http://localhost:7000/api/hotel/${hotelId}`);
         setLoadData(res.data);
         setImage(`http://localhost:7000/api/hotel/image/${res.data._id}`)
+    }
+
+    const isAlreadyBooked = async () => {
+        let res = await axios.get(`http://localhost:7000/api/is-already-booked/${hotelId}`, {
+           headers: {
+              Authorization: `Bearer ${user.token}`
+           }
+        })
+        setBookedHotel(res.data.ok)
     }
 
     const getSessionId = async () => {
@@ -44,7 +60,8 @@ const ViewHotel = () => {
     const handleClick = (e) => {
         e.preventDefault();
         if(!user){
-            navigate("/login")
+            navigate("/login");
+            return
         }
         getSessionId()
     }
@@ -75,8 +92,8 @@ const ViewHotel = () => {
                     <p>To <br /> {moment(new Date(to)).format("MMM Do YYYY, h:mm:ss a")}</p>
                     <i>Posted By {postedBy && postedBy.name}</i>
                      <br />
-                    <button onClick={handleClick} disabled={loading} className="btn btn-block btn-lg btn-primary mt-3">
-                         {loading ? "Loading" : user && user.token ? "Book Now" : "Login to book"}
+                    <button onClick={handleClick} disabled={loading || bookedHotel} className="btn btn-block btn-lg btn-primary mt-3">
+                         {loading ? "Loading" : bookedHotel ? "Already Booked" : user && user.token ? "Book Now" : "Login to book"}
                     </button>
                 </div>
             </div>

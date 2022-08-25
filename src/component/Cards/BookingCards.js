@@ -1,7 +1,9 @@
+import { useState } from "react";
 import { diffDays } from "../../actions";
+import ModalComponent from "../modals/Modal";
 
 const BookingCard = ({ hotels: { hotel: { _id, bed, content, from, to, image, location, price, title } }, session, orderedBy, showViewMoreButton = true }) => {
-    // console.log(props.hotels.hotel)
+    const [showModals, setShowModals] = useState(false);
     return (
        <>
          <div className="card mb-3">
@@ -29,6 +31,25 @@ const BookingCard = ({ hotels: { hotel: { _id, bed, content, from, to, image, lo
                         </p>
                         <p className="card-text">{bed}</p>
                         <p className="card-text">Available from {new Date(from).toLocaleDateString()}</p>
+                    {
+                    showModals &&
+                    (
+                    <ModalComponent 
+                    session={session}
+                    orderedBy={orderedBy}
+                    showModals={showModals}
+                    setShowModals={setShowModals}
+                    />
+                    )}
+                    <div className="d-flex justify-content-between h4">
+                        <button 
+                        onClick={() => setShowModals(!showModals)}
+                        className="btn btn-primary"
+                        >
+                            Show Payment Info
+                        </button>
+                    </div>
+                    
                     </div>
                 </div>
             </div> 
